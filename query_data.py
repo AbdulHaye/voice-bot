@@ -1,14 +1,10 @@
 import argparse
 
-# from dataclasses import dataclass
-# from langchain_community.vectorstores import Chroma
 from langchain_chroma import Chroma
 
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_google_genai import GoogleGenerativeAI
 
-# from langchain_openai import OpenAIEmbeddings
-# from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 
 import pyttsx3
@@ -81,4 +77,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    # save_text_to_audio("test", "Answer the question based on the above context")

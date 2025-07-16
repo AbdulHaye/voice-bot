@@ -1,29 +1,18 @@
-# from langchain.document_loaders import DirectoryLoader
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.schema import Document
 
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 
-# from langchain.embeddings import OpenAIEmbeddings
-# from langchain_openai import OpenAIEmbeddings
-# from langchain_community.vectorstores import Chroma
 from langchain_chroma import Chroma
 
-# import openai
 from dotenv import load_dotenv
 import os
 import shutil
 
-# Load environment variables. Assumes that project contains .env file with API keys
 load_dotenv()
-# ---- Set OpenAI API key
-# Change environment variable name from "OPENAI_API_KEY" to the name given in
-# your .env file.
-# openai.api_key = os.environ['OPENAI_API_KEY']
 
 CHROMA_PATH = "chroma"
-DATA_PATH = "data/books"
 PDF_PATH = "data/script.pdf"
 
 from log_setup import setup_logger
@@ -42,7 +31,6 @@ def generate_data_store():
 
 
 def load_documents():
-    # loader = DirectoryLoader(DATA_PATH, glob="*.md")
     loader = PyPDFLoader(PDF_PATH)
     documents = loader.load()
     return documents
