@@ -11,9 +11,15 @@ from langchain_google_genai import GoogleGenerativeAI
 # from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 
+import pyttsx3
+
 from dotenv import load_dotenv
 
 load_dotenv()
+
+from log_setup import setup_logger
+
+logger = setup_logger()
 
 CHROMA_PATH = "chroma"
 
@@ -26,6 +32,16 @@ Answer the question based only on the following context:
 
 Answer the question based on the above context: {question}
 """
+
+
+def save_text_to_audio(file_name: str, text: str):
+    engine = pyttsx3.init("espeak")
+    # engine.setProperty("voice", "english-us")
+    voices = engine.getProperty("voices")
+    volume = engine.getProperty("volume")
+    rate = engine.getProperty("rate")
+    logger.info(f"Voices: {voices}, Volume: {volume}, rate: {rate}")
+    engine.runAndWait()
 
 
 def main():
@@ -56,6 +72,8 @@ def main():
     model = GoogleGenerativeAI(model="gemini-2.0-flash")
     response_text = model.invoke(prompt)
 
+    # save_text_to_audio(response_text)
+
     sources = [doc.metadata.get("source", None) for doc, _score in results]
     formatted_response = f"Response: {response_text}\nSources: {sources}"
     print(formatted_response)
@@ -63,3 +81,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    # save_text_to_audio("test", "Answer the question based on the above context")
