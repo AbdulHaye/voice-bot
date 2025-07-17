@@ -58,6 +58,7 @@ python query_data.py "How does Alice meet the Mad Hatter?"
 
 the bot will stop after the person stop speaking for 1.5 seconds and then start replying
 
+you need GOOGLE_API_KEY from https://console.cloud.google.com/ and place it in .env
 you can press cntrl + c or say "exit" to stop the bot
 
 > You'll also need to set up an OpenAI account (and set the OpenAI key in your environment variable) for this to work.
