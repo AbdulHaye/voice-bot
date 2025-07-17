@@ -13,7 +13,7 @@ import shutil
 load_dotenv()
 
 CHROMA_PATH = "chroma"
-PDF_PATH = "data/script.pdf"
+PDF_PATH = "data/marketing.pdf"
 
 from log_setup import setup_logger
 
@@ -53,21 +53,43 @@ def split_text(documents: list[Document]):
     return chunks
 
 
+# def save_to_chroma(chunks: list[Document]):
+#     # Clear out the database first.
+#     if os.path.exists(CHROMA_PATH):
+#         shutil.rmtree(CHROMA_PATH)
+
+#     # Create a new DB from the documents.
+#     Chroma.from_documents(
+#         chunks,
+#         GoogleGenerativeAIEmbeddings(
+#             model="models/gemini-embedding-001", task_type="semantic_similarity"
+#         ),
+#         persist_directory=CHROMA_PATH,
+#     )
+#     logger.info(f"Saved {len(chunks)} chunks to {CHROMA_PATH}.")
+
 def save_to_chroma(chunks: list[Document]):
     # Clear out the database first.
     if os.path.exists(CHROMA_PATH):
         shutil.rmtree(CHROMA_PATH)
 
+    # Get the API key from environment variables
+    api_key = os.getenv("GOOGLE_API_KEY")
+    if not api_key:
+        logger.error("GOOGLE_API_KEY not found in environment variables.")
+        raise ValueError("GOOGLE_API_KEY is required to initialize GoogleGenerativeAIEmbeddings.")
+
     # Create a new DB from the documents.
     Chroma.from_documents(
         chunks,
         GoogleGenerativeAIEmbeddings(
-            model="models/gemini-embedding-001", task_type="semantic_similarity"
+            model="models/embedding-001",
+            task_type="semantic_similarity",
+            google_api_key=api_key  # Pass the API key
         ),
         persist_directory=CHROMA_PATH,
     )
     logger.info(f"Saved {len(chunks)} chunks to {CHROMA_PATH}.")
-
 
 if __name__ == "__main__":
     main()
